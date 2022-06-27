@@ -53,6 +53,7 @@ fi
 HOOKS_DIR="${PWD}/.hooks"
 GIT_HOOKS_DIR="${PWD}/.git/hooks"
 
+echo "Checking if this script is really executing"
 if [ -n "$NO_HOOKS" ]; then
     echo "Skipping hooks setup as environment varialbe NO_HOOKS is set"
 else
