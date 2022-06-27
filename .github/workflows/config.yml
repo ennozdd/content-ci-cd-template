@@ -44,10 +44,12 @@ jobs:
           cd $GITHUB_WORKSPACE/content/
 
           if [ ! -e "venv" ]; then
-            echo "installing venv"
+            echo "installing venv";
+            echo "$GITHUB_WORKSPACE/content/";
             NO_HOOKS=1 SETUP_PY2=no .hooks/bootstrap
-            echo "activating venv"
-            source ./venv/bin/activate
+            echo "activating venv";
+
+            source /home/runner/work/content-ci-cd-template/content-ci-cd-template/content/.venv/bin/activate
             pip3 install -r ${GITHUB_WORKSPACE}/repository/requirements.txt
             demisto-sdk --version
           else
