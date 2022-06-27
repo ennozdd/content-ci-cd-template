@@ -1,4 +1,5 @@
 demisto-sdk
+poetry
 virtualenv
 jsonschema
 gsutil
