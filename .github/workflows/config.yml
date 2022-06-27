@@ -52,7 +52,7 @@ jobs:
             demisto-sdk --version
           else
             echo "venv exists (from cache). activating"
-            source ./venv/bin/activate
+            source ./.venv/bin/activate
           fi
 
           # Install node packages
@@ -82,7 +82,7 @@ jobs:
       - name: Validate Files and Yaml
         if: always()
         run: |
-          source $GITHUB_WORKSPACE/content/venv/bin/activate
+          source $GITHUB_WORKSPACE/content/.venv/bin/activate
 
           cd $GITHUB_WORKSPACE/repository
 
@@ -92,7 +92,7 @@ jobs:
       - name: Run Unit Testing and Lint
         if: always()
         run: |
-          source $GITHUB_WORKSPACE/content/venv/bin/activate
+          source $GITHUB_WORKSPACE/content/.venv/bin/activate
 
           cd $GITHUB_WORKSPACE/repository
 
@@ -110,7 +110,7 @@ jobs:
       - name: Create Packs Artifacts
         run: |
           if [ $PACKS_CHANGED ]; then
-            source $GITHUB_WORKSPACE/content/venv/bin/activate
+            source $GITHUB_WORKSPACE/content/.venv/bin/activate
 
             cd $GITHUB_WORKSPACE/repository/
             for pack in Packs/*
