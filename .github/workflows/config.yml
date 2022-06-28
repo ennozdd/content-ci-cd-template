@@ -27,13 +27,16 @@ jobs:
       - name: Prepare Environment
         env:
           REF: ${{ github.ref }}
+          DEMISTO_BASE_URL: ${{ secrets.DEMISTO_BASE_URL }}
+          DEMISTO_API_KEY: ${{ secrets.DEMISTO_API_KEY }}
         run: |
           echo "PATH=/home/runner/.local/bin:$PATH" >> $GITHUB_ENV
+          echo "DEMISTO_BASE_URL="$DEMISTO_BASE_URL >> $GITHUB_ENV
+          echo "DEMISTO_API_KEY="$DEMISTO_API_KEY >> $GITHUB_ENV
           echo "PYTHONPATH=${GITHUB_WORKSPACE}/content:${GITHUB_WORKSPACE}:${PYTHONPATH}" >> $GITHUB_ENV
           echo "ARTIFACTS_FOLDER=/home/runner/work/repository/repository/content/artifacts" >> $GITHUB_ENV
           echo "NEW_PACKS_FOLDER=/home/runner/work/repository/repository/content/new_packs_zips" >> $GITHUB_ENV
           echo "DEMISTO_README_VALIDATION=false" >> $GITHUB_ENV
-
           BRANCH_NAME=${REF#refs/heads/}
           PACKS_CHANGED=$(python $GITHUB_WORKSPACE/repository/build_related_scripts/get_modified_packs.py --repo_path $GITHUB_WORKSPACE/repository/)
           echo "PACKS_CHANGED=${PACKS_CHANGED}" >> $GITHUB_ENV
@@ -50,6 +53,7 @@ jobs:
             source ${GITHUB_WORKSPACE}/content/.venv/bin/activate
             pip3 install -r ${GITHUB_WORKSPACE}/repository/requirements.txt
             demisto-sdk --version
+            demisto-sdk download --insecure   -lf
           else
             echo "venv exists (from cache). activating"
             source ./.venv/bin/activate
@@ -130,15 +134,6 @@ jobs:
             # Select the way you want to install the packs on the machine, and remove the second part
             # For example: Choose the option 1 - UPLOAD TO ARTIFACTS SERVER OPTION, and remove the option 2 - UPLOAD DIRECTLY TO YOUR XSOAR MACHINE.
             # For more information - https://xsoar.pan.dev/docs/reference/articles/xsoar-ci-cd#to-deploy-content
-
-            # 1. ========= UPLOAD TO ARTIFACTS SERVER OPTION =========
-
-            # Upload to the artifacts server of your choice.
-            # Create a file with the service account data
-            # use the bucket_upload script to upload your packs to google cloud storage
-            python $GITHUB_WORKSPACE/repository/build_related_scripts/bucket_upload.py --service_account $GITHUB_WORKSPACE/service_account.json --packs_directory $NEW_PACKS_FOLDER --branch_name $BRANCH_NAME
-            # Delete the service account file
-            rm $GITHUB_WORKSPACE/service_account.json
 
             # 2. ========= UPLOAD DIRECTLY TO YOUR XSOAR MACHINE (WHEN MERGING TO MAIN REPO) =========
 
