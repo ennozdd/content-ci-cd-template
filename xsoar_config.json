@@ -1,12 +1,8 @@
 {
     "custom_packs": [
         {
-            "id": "Pack1",
-            "url": "packs/Pack1/1.0.3/Pack1.zip"
-        },
-        {
-            "id": "Pack2",
-            "url": "packs/Pack2/1.0.1/Pack2.zip"
+            "id": "soartestpack",
+            "url":"Packs/soartestpack/Releases/1.0.0/soartestpack.zip"
         }
     ],
     "marketplace_packs": [
