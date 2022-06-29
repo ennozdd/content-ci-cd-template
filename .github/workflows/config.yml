@@ -142,7 +142,7 @@ jobs:
             if [ $BRANCH_NAME != master ]; then
 
               # Get the config_file
-              CONFIG_FILE=$(cat ${GITHUB_WORKSPACE}/repository/xsoar_config.json)
+              CONFIG_FILE=${GITHUB_WORKSPACE}/repository/xsoar_config.json
               # Extract the Marketplace Packs section from the config_file
               MARKETPLACE_PACKS_LIST=$(cat $CONFIG_FILE | jq -r '.marketplace_packs')
               # Upload Custom Packs
