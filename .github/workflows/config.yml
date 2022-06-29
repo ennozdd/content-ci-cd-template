@@ -34,8 +34,8 @@ jobs:
           echo "DEMISTO_BASE_URL="$DEMISTO_BASE_URL >> $GITHUB_ENV
           echo "DEMISTO_API_KEY="$DEMISTO_API_KEY >> $GITHUB_ENV
           echo "PYTHONPATH=${GITHUB_WORKSPACE}/content:${GITHUB_WORKSPACE}:${PYTHONPATH}" >> $GITHUB_ENV
-          echo "ARTIFACTS_FOLDER=/home/runner/work/repository/repository/content/artifacts" >> $GITHUB_ENV
-          echo "NEW_PACKS_FOLDER=/home/runner/work/repository/repository/content/new_packs_zips" >> $GITHUB_ENV
+          echo "ARTIFACTS_FOLDER=${GITHUB_WORKSPACE}/content/artifacts" >> $GITHUB_ENV
+          echo "NEW_PACKS_FOLDER=${GITHUB_WORKSPACE}/content/new_packs_zips" >> $GITHUB_ENV
           echo "DEMISTO_README_VALIDATION=false" >> $GITHUB_ENV
           BRANCH_NAME=${REF#refs/heads/}
           PACKS_CHANGED=$(python $GITHUB_WORKSPACE/repository/build_related_scripts/get_modified_packs.py --repo_path $GITHUB_WORKSPACE/repository/)
@@ -53,7 +53,6 @@ jobs:
             source ${GITHUB_WORKSPACE}/content/.venv/bin/activate
             pip3 install -r ${GITHUB_WORKSPACE}/repository/requirements.txt
             demisto-sdk --version
-            demisto-sdk download --insecure   -lf
           else
             echo "venv exists (from cache). activating"
             source ./.venv/bin/activate
@@ -131,6 +130,8 @@ jobs:
         run : |
           if [ $PACKS_CHANGED ]; then
             BRANCH_NAME=${REF#refs/heads/}
+            cd $GITHUB_WORKSPACE/repository/
+            source $GITHUB_WORKSPACE/content/.venv/bin/activate
 
             # Select the way you want to install the packs on the machine, and remove the second part
             # For example: Choose the option 1 - UPLOAD TO ARTIFACTS SERVER OPTION, and remove the option 2 - UPLOAD DIRECTLY TO YOUR XSOAR MACHINE.
@@ -141,13 +142,13 @@ jobs:
             if [ $BRANCH_NAME != master ]; then
 
               # Get the config_file
-              CONFIG_FILE=$(cat xsoar_config.json)
+              CONFIG_FILE=${GITHUB_WORKSPACE}/repository/xsoar_config.json
               # Extract the Marketplace Packs section from the config_file
               MARKETPLACE_PACKS_LIST=$(cat $CONFIG_FILE | jq -r '.marketplace_packs')
               # Upload Custom Packs
-              demisto-sdk upload --input-config-file /xsoar_config.json
+              demisto-sdk upload --input-config-file  ${GITHUB_WORKSPACE}/repository/xsoar_config.json --insecure
               # Upload MarketPlace Packs
-              python3 build_related_scripts/MarketPlaceInstallerFromCICD.py --marketplace-packs-list $MARKETPLACE_PACKS_LIST
+              python3 ${GITHUB_WORKSPACE}/repository/build_related_scripts/MarketPlaceInstallerFromCICD.py --marketplace-packs-list $MARKETPLACE_PACKS_LIST
             fi
 
           else
