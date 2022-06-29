@@ -146,7 +146,7 @@ jobs:
               # Upload Custom Packs
               demisto-sdk upload --input-config-file  ${GITHUB_WORKSPACE}/repository/xsoar_config.json --insecure
               # Upload MarketPlace Packs
-              python3 build_related_scripts/MarketPlaceInstallerFromCICD.py --marketplace-packs-list $MARKETPLACE_PACKS_LIST
+              python3 ${GITHUB_WORKSPACE}/repository/build_related_scripts/MarketPlaceInstallerFromCICD.py --marketplace-packs-list $MARKETPLACE_PACKS_LIST
             fi
 
           else
