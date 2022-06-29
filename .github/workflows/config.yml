@@ -145,7 +145,7 @@ jobs:
               # Extract the Marketplace Packs section from the config_file
               MARKETPLACE_PACKS_LIST=$(cat $CONFIG_FILE | jq -r '.marketplace_packs')
               # Upload Custom Packs
-              demisto-sdk upload --input-config-file --insecure xsoar_config.json
+              demisto-sdk upload --input-config-file  xsoar_config.json --insecure
               # Upload MarketPlace Packs
               python3 build_related_scripts/MarketPlaceInstallerFromCICD.py --marketplace-packs-list $MARKETPLACE_PACKS_LIST
             fi
