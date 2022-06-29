@@ -7,10 +7,10 @@ args:
   secret: false
 comment: '[Enter a description of the script, including what function it performs and any important information users need to know, for example required permissions.]'
 commonfields:
-  id: mynewscript
+  id: testscript
   version: -1
 enabled: false
-name: mynewscript
+name: testscript
 outputs:
 - contextPath: BaseScript.Output
   description: '[Enter a description of the data returned in this output.]'

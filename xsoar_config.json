@@ -2,7 +2,7 @@
     "custom_packs": [
         {
             "id": "soartestpack",
-            "url":"Packs/soartestpack/Releases/1.0.0/soartestpack.zip"
+            "url":"Packs/soartestpack"
         }
     ],
     "marketplace_packs": [
