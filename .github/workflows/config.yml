@@ -130,6 +130,8 @@ jobs:
         run : |
           if [ $PACKS_CHANGED ]; then
             BRANCH_NAME=${REF#refs/heads/}
+            cd $GITHUB_WORKSPACE/repository/
+            source $GITHUB_WORKSPACE/content/.venv/bin/activate
 
             # Select the way you want to install the packs on the machine, and remove the second part
             # For example: Choose the option 1 - UPLOAD TO ARTIFACTS SERVER OPTION, and remove the option 2 - UPLOAD DIRECTLY TO YOUR XSOAR MACHINE.
