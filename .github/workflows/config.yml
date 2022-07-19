@@ -33,7 +33,7 @@ jobs:
           echo "PATH=/home/runner/.local/bin:$PATH" >> $GITHUB_ENV
           echo "PYTHONPATH=${GITHUB_WORKSPACE}/content:${GITHUB_WORKSPACE}:${PYTHONPATH}" >> $GITHUB_ENV
           echo "Printing env"
-          echo $GITHUB_ENV
+          cat $GITHUB_ENV
           echo "Printed env"
           echo "ARTIFACTS_FOLDER=${GITHUB_WORKSPACE}/content/artifacts" >> $GITHUB_ENV
           echo "NEW_PACKS_FOLDER=${GITHUB_WORKSPACE}/content/new_packs_zips" >> $GITHUB_ENV
